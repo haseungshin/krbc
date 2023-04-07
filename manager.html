@@ -5,7 +5,7 @@
     <script>
         function refreshTableList() {
             // Fetch the registered table numbers from the server
-            fetch('https://Haseung.pythonanywhere.com/registered_tables')
+            fetch('http://kraserver.pythonanywhere.com:8123/registered_tables')
                 .then(response => response.json())
                 .then(data => {
                     // Update the table list on the page
