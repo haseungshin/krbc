@@ -10,7 +10,7 @@
 
             // 테이블 번호를 처리하기 위해 서버에 전송
             // 등록 처리를 담당하는 서버 측 코드로 변경할 수 있습니다.
-            fetch(`http://kraserver.pythonanywhere.com:8123/register?table=${tableNumber}`)
+            fetch(`https://kraserver.pythonanywhere.com:8123/register?table=${tableNumber}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
