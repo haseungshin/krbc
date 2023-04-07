@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <script>
+        function refreshTableList() {
+            // Fetch the registered table numbers from the server
+            fetch('https://haseung.pythonanywhere.com/registered_tables')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the table list on the page
+                    const tableList = document.getElementById('table-list');
+                    tableList.innerHTML = '';
+
+                    data.forEach(tableNumber => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `Table: ${tableNumber}`;
+                        tableList.appendChild(listItem);
+                    });
+                });
+        }
+
+        // Refresh the table list every 5 seconds
+        setInterval(refreshTableList, 5000);
+    </script>
+</head>
+<body onload="refreshTableList()">
+    <h1>Admin Dashboard</h1>
+    <ul id="table-list"></ul>
+</body>
+</html>
