@@ -2,14 +2,14 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
     <script>
+        const socket = io('https://kraserver.pythonanywhere.com');
+
         function refreshTableList() {
-            // Fetch the registered table numbers from the server
             fetch('https://kraserver.pythonanywhere.com/registered_tables')
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Registered tables data:', data); // Added console log
-                    // Update the table list on the page
                     const tableList = document.getElementById('table-list');
                     tableList.innerHTML = '';
 
@@ -18,22 +18,19 @@
                         listItem.textContent = `Table No. ${tableNumber}`;
                         tableList.appendChild(listItem);
                     });
+                });
 
-                    // Fetch the total requests count from the server
-                    return fetch('https://kraserver.pythonanywhere.com/total_requests');
-                })
+            fetch('https://kraserver.pythonanywhere.com/total_requests')
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Total requests data:', data); // Added console log
                     document.getElementById('total-count').textContent = `Total Count: ${data}`;
-                })
-                .finally(() => {
-                    // Refresh the table list and total request count after 5 seconds
-                    setTimeout(refreshTableList, 5000);
                 });
         }
 
-        // Call the refreshTableList function initially
+        socket.on('table_registered', () => {
+            refreshTableList();
+        });
+
         refreshTableList();
     </script>
 </head>
