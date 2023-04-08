@@ -8,6 +8,7 @@
             fetch('https://kraserver.pythonanywhere.com/registered_tables')
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Registered tables data:', data); // Added console log
                     // Update the table list on the page
                     const tableList = document.getElementById('table-list');
                     tableList.innerHTML = '';
@@ -23,6 +24,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Total requests data:', data); // Added console log
                     document.getElementById('total-count').textContent = `Total Count: ${data}`;
                 })
                 .finally(() => {
