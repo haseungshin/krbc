@@ -3,8 +3,6 @@
 <head>
     <title>Admin Dashboard</title>
     <script>
-        let totalCount = 0;
-
         function refreshTableList() {
             // Fetch the registered table numbers from the server
             fetch('https://kraserver.pythonanywhere.com/registered_tables')
@@ -19,14 +17,17 @@
                         listItem.textContent = `Table: ${tableNumber}`;
                         tableList.appendChild(listItem);
                     });
+                });
 
-                    // Update total request count
-                    totalCount += data.length;
-                    document.getElementById('total-count').textContent = `Total requests: ${totalCount}`;
+            // Fetch the total requests count from the server
+            fetch('https://kraserver.pythonanywhere.com/total_requests')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-count').textContent = `Total requests: ${data}`;
                 });
         }
 
-        // Refresh the table list every 5 seconds
+        // Refresh the table list and total request count every 5 seconds
         setInterval(refreshTableList, 5000);
     </script>
 </head>
