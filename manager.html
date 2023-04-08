@@ -14,7 +14,7 @@
 
                     data.forEach(tableNumber => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = `Table: ${tableNumber}`;
+                        listItem.textContent = `Table No. ${tableNumber}`;
                         tableList.appendChild(listItem);
                     });
                 });
@@ -23,7 +23,7 @@
             fetch('https://kraserver.pythonanywhere.com/total_requests')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('total-count').textContent = `Total requests: ${data}`;
+                    document.getElementById('total-count').textContent = `Total Count: ${data}`;
                 });
         }
 
