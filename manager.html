@@ -14,26 +14,41 @@
 
                     data.forEach(tableNumber => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = `Table No. ${tableNumber}`;
+                        listItem.textContent = `Table: ${tableNumber}`;
                         tableList.appendChild(listItem);
                     });
                 });
-
-            // Fetch the total requests count from the server
-            fetch('https://kraserver.pythonanywhere.com/total_requests')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('total-count').textContent = `Total Count: ${data}`;
-                });
         }
 
-        // Refresh the table list and total request count every 5 seconds
+        // Refresh the table list every 5 seconds
         setInterval(refreshTableList, 5000);
+
+        document.getElementById('race-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const raceNumber = document.getElementById('race-number').value;
+
+            fetch('https://kraserver.pythonanywhere.com/submit_race_number', {
+                method: 'POST',
+                body: new FormData(event.target)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Race number submitted successfully');
+                } else {
+                    alert('Submission failed');
+                }
+            });
+        });
     </script>
 </head>
 <body onload="refreshTableList()">
     <h1>Admin Dashboard</h1>
-    <h2 id="total-count">Total requests: 0</h2>
+    <form id="race-form">
+        <label for="race-number">Race number:</label>
+        <input type="text" id="race-number" name="race-number">
+        <button type="submit">Submit</button>
+    </form>
     <ul id="table-list"></ul>
 </body>
 </html>
