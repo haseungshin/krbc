@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <style>
+        .total-count {
+            font-size: 24px;
+        }
+    </style>
     <script>
         function refreshTableList() {
             // Fetch the registered table numbers from the server
@@ -17,6 +22,10 @@
                         listItem.textContent = `Table: ${tableNumber}`;
                         tableList.appendChild(listItem);
                     });
+
+                    // Update the total count
+                    const totalCount = document.getElementById('total-count');
+                    totalCount.textContent = `Total count: ${data.length}`;
                 });
         }
 
@@ -27,5 +36,7 @@
 <body onload="refreshTableList()">
     <h1>Admin Dashboard</h1>
     <ul id="table-list"></ul>
+    <p id="total-count" class="total-count"></p> <!-- Add this element for the total count -->
 </body>
 </html>
+
