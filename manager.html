@@ -24,8 +24,12 @@
                     let tableNumbers = response['table_numbers'];
                     let tableNumbersHTML = '';
 
-                    for (let i = 0; i < tableNumbers.length; i++) {
-                        tableNumbersHTML += `<p>테이블 번호: ${tableNumbers[i]}</p>`;
+                    if (tableNumbers.length === 0) {
+                        tableNumbersHTML = '<p>등록된 테이블 번호가 없습니다.</p>';
+                    } else {
+                        for (let i = 0; i < tableNumbers.length; i++) {
+                            tableNumbersHTML += `<p>테이블 번호: ${tableNumbers[i]}</p>`;
+                        }
                     }
 
                     $('#table_numbers').html(tableNumbersHTML);
@@ -35,6 +39,9 @@
                 }
             });
         }
+
+        // 페이지 로드 시 테이블 번호를 즉시 새로고침합니다
+        refreshTableNumbers();
 
         // 테이블 번호를 5초마다 새로고침합니다
         setInterval(refreshTableNumbers, 5000);
