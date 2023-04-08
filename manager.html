@@ -2,6 +2,16 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
+</head>
+<body onload="refreshTableList()">
+    <h1>Admin Dashboard</h1>
+    <form id="race-form">
+        <label for="race-number">Race number:</label>
+        <input type="text" id="race-number" name="race-number">
+        <button type="submit">Submit</button>
+    </form>
+    <ul id="table-list"></ul>
+
     <script>
         function refreshTableList() {
             // Fetch the registered table numbers from the server
@@ -23,7 +33,7 @@
         // Refresh the table list every 5 seconds
         setInterval(refreshTableList, 5000);
 
-        document.getElementById('race_number_form').addEventListener('submit', (event) => {
+        document.getElementById('race-form').addEventListener('submit', (event) => {
             event.preventDefault();
             const raceNumber = document.getElementById('race-number').value;
 
@@ -41,14 +51,5 @@
             });
         });
     </script>
-</head>
-<body onload="refreshTableList()">
-    <h1>Admin Dashboard</h1>
-    <form id="race-form">
-        <label for="race-number">Race number:</label>
-        <input type="text" id="race-number" name="race-number">
-        <button type="submit">Submit</button>
-    </form>
-    <ul id="table-list"></ul>
 </body>
 </html>
