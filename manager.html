@@ -17,21 +17,25 @@
                         listItem.textContent = `Table No. ${tableNumber}`;
                         tableList.appendChild(listItem);
                     });
-                });
 
-            // Fetch the total requests count from the server
-            fetch('https://kraserver.pythonanywhere.com/total_requests')
+                    // Fetch the total requests count from the server
+                    return fetch('https://kraserver.pythonanywhere.com/total_requests');
+                })
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('total-count').textContent = `Total Count: ${data}`;
+                })
+                .finally(() => {
+                    // Refresh the table list and total request count after 5 seconds
+                    setTimeout(refreshTableList, 5000);
                 });
         }
 
-        // Refresh the table list and total request count every 5 seconds
-        setInterval(refreshTableList, 5000);
+        // Call the refreshTableList function initially
+        refreshTableList();
     </script>
 </head>
-<body onload="refreshTableList()">
+<body>
     <h1>Admin Dashboard</h1>
     <h2 id="total-count">Total requests: 0</h2>
     <ul id="table-list"></ul>
