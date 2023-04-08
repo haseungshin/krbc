@@ -1,28 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <title>QR 코드 등록</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Add any styling you need */
+    </style>
+</head>
+<body>
+    <h1>신청완료</h1>
+    <div id="message">
+        <!-- Success or error message will be displayed here -->
+    </div>
     <script>
-        function registerTable() {
-            // URL 매개변수에서 테이블 번호 가져오기
-            const urlParams = new URLSearchParams(window.location.search);
-            const tableNumber = urlParams.get('table');
+        function registerTable(tableNumber) {
+            $.ajax({
+                url: 'https://kraserver.pythonanywhere.com/register_table',
+                type: 'POST',
+                data: {'table_number': tableNumber},
+                success: function(response) {
+                    // Show a success message to the user
+                    $('#message').html(`<p>${response.success}</p>`);
+                },
+                error: function(error) {
+                    // Show an error message to the user
+                    $('#message').html(`<p>${error.responseJSON.error}</p>`);
+                }
+            });
+        }
 
-            // 테이블 번호를 처리하기 위해 서버에 전송
-            // 등록 처리를 담당하는 서버 측 코드로 변경할 수 있습니다.
-            fetch(`https://kraserver.pythonanywhere.com/register?table=${tableNumber}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById("message").innerHTML = "등록 완료";
-                    } else {
-                        document.getElementById("message").innerHTML = "등록 실패";
-                    }
-                });
+        // Get the table number from the URL and register it
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableNumber = urlParams.get('table');
+        if (tableNumber) {
+            registerTable(tableNumber);
+        } else {
+            $('#message').html('<p>테이블 번호가 없습니다.</p>');
         }
     </script>
-</head>
-<body onload="registerTable()">
-    <h1 id="message">등록 중...</h1>
 </body>
 </html>
