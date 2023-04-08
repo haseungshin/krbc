@@ -2,16 +2,6 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
-</head>
-<body onload="refreshTableList()">
-    <h1>Admin Dashboard</h1>
-    <form id="race-form">
-        <label for="race-number">Race number:</label>
-        <input type="text" id="race-number" name="race-number">
-        <button type="submit">Submit</button>
-    </form>
-    <ul id="table-list"></ul>
-
     <script>
         function refreshTableList() {
             // Fetch the registered table numbers from the server
@@ -22,9 +12,9 @@
                     const tableList = document.getElementById('table-list');
                     tableList.innerHTML = '';
 
-                    data.forEach(tableNumber => {
+                    data.forEach(table => {
                         const listItem = document.createElement('li');
-                        listItem.textContent = `Table: ${tableNumber}`;
+                        listItem.textContent = `Race: ${table.race_number}, Tables: ${table.table_numbers}`;
                         tableList.appendChild(listItem);
                     });
                 });
@@ -51,5 +41,14 @@
             });
         });
     </script>
+</head>
+<body onload="refreshTableList()">
+    <h1>Admin Dashboard</h1>
+    <form id="race-form">
+        <label for="race-number">Race number:</label>
+        <input type="text" id="race-number" name="race-number">
+        <button type="submit">Submit</button>
+    </form>
+    <ul id="table-list"></ul>
 </body>
 </html>
