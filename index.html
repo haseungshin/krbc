@@ -3,24 +3,25 @@
 <head>
     <title>QR 코드 등록</title>
     <script>
-        function registerTable() {
-            // URL 매개변수에서 테이블 번호 가져오기
-            const urlParams = new URLSearchParams(window.location.search);
-            const tableNumber = urlParams.get('table');
+    function registerTable() {
+        // Get the table and race number from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableNumber = urlParams.get('table');
+        const raceNumber = urlParams.get('race');
 
-            // 테이블 번호를 처리하기 위해 서버에 전송
-            // 등록 처리를 담당하는 서버 측 코드로 변경할 수 있습니다.
-            fetch(`https://kraserver.pythonanywhere.com/register?table=${tableNumber}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        document.getElementById("message").innerHTML = "등록 완료";
-                    } else {
-                        document.getElementById("message").innerHTML = "등록 실패";
-                    }
-                });
-        }
+        // Send the table and race number to the server for processing
+        fetch(`https://kraserver.pythonanywhere.com/register?table=${tableNumber}&race=${raceNumber}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById("message").innerHTML = "Registration complete";
+                } else {
+                    document.getElementById("message").innerHTML = "Registration failed";
+                }
+            });
+    }
     </script>
+
 </head>
 <body onload="registerTable()">
     <h1 id="message">등록 중...</h1>
