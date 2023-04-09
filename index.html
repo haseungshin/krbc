@@ -39,11 +39,6 @@
         } else {
             $('#message').html('<p>테이블 번호가 없습니다.</p>');
         }
-        error: function(jqXHR, textStatus, errorThrown) {
-            // Show an error message to the user
-            const error = jqXHR.responseJSON ? jqXHR.responseJSON.error : errorThrown;
-            $('#message').html(`<p>${error}</p>`);
-        }
     </script>
 </body>
 </html>
