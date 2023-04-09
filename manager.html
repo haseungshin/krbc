@@ -22,8 +22,26 @@
     </div>
     <script>
         function refreshTableNumbers() {
-            // ...
+            $.ajax({
+                url: 'https://kraserver.pythonanywhere.com/get_table_numbers',
+                type: 'GET',
+                success: function(response) {
+                    // Display the table numbers
+                    const tableNumbers = response.table_numbers;
+                    let tableNumbersHtml = '<ul>';
+                    for (const tableNumber of tableNumbers) {
+                        tableNumbersHtml += `<li>테이블 번호: ${tableNumber}</li>`;
+                    }
+                    tableNumbersHtml += '</ul>';
+                    $('#table_numbers').html(tableNumbersHtml);
+                },
+                error: function(error) {
+                    // Show an error message to the user
+                    $('#table_numbers').html(`<p>${error.responseJSON.error}</p>`);
+                }
+            });
         }
+
 
         function startRegistration() {
             const raceNumber = $('#race_number').val();
