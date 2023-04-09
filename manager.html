@@ -51,20 +51,8 @@
                 return;
             }
 
-            $.ajax({
-                url: 'https://kraserver.pythonanywhere.com/reset_registration',
-                type: 'POST',
-                data: {'race_number': raceNumber},
-                success: function(response) {
-                    // Show a success message to the user
-                    $('#registration_status').html(`<p>${response.success}</p>`);
-                    refreshTableNumbers();
-                },
-                error: function(error) {
-                    // Show an error message to the user
-                    $('#registration_status').html(`<p>${error.responseJSON.error}</p>`);
-                }
-            });
+            // Show a message indicating that the race registration has started
+            $('#registration_status').html(`<p>${raceNumber} 경주 응원 접수 중</p>`);
         }
         function endRegistration() {
             const raceNumber = $('#race_number').val();
@@ -78,8 +66,8 @@
                 type: 'POST',
                 data: {'race_number': raceNumber},
                 success: function(response) {
-                    // Show a success message to the user
-                    $('#registration_status').html(`<p>${response.success}</p>`);
+                    // Clear the registration status message
+                    $('#registration_status').html('');
                     refreshTableNumbers();
                 },
                 error: function(error) {
