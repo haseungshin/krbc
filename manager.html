@@ -51,8 +51,18 @@
                 return;
             }
 
-            // Show a message indicating that the race registration has started
-            $('#registration_status').html(`<p>${raceNumber} 경주 응원 접수 중</p>`);
+            $.ajax({
+                url: 'https://kraserver.pythonanywhere.com/open_registration',
+                type: 'POST',
+                success: function(response) {
+                    // Show a success message to the user
+                    $('#registration_status').html(`<p>${raceNumber} 경주 응원 접수 중</p>`);
+                },
+                error: function(error) {
+                    // Show an error message to the user
+                    $('#registration_status').html(`<p>${error.responseJSON.error}</p>`);
+                }
+            });
         }
         function endRegistration() {
             const raceNumber = $('#race_number').val();
@@ -62,12 +72,25 @@
             }
 
             $.ajax({
+                url: 'https://kraserver.pythonanywhere.com/close_registration',
+                type: 'POST',
+                success: function(response) {
+                    // Clear the registration status message
+                    $('#registration_status').html('');
+                    refreshTableNumbers();
+                },
+                error: function(error) {
+                    // Show an error message to the user
+                    $('#registration_status').html(`<p>${error.responseJSON.error}</p>`);
+                }
+            });
+
+            // Reset the registered table numbers and save the race number
+            $.ajax({
                 url: 'https://kraserver.pythonanywhere.com/reset_registration',
                 type: 'POST',
                 data: {'race_number': raceNumber},
                 success: function(response) {
-                    // Clear the registration status message
-                    $('#registration_status').html('');
                     refreshTableNumbers();
                 },
                 error: function(error) {
