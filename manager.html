@@ -14,6 +14,7 @@
     <label for="race_number">경주 번호:</label>
     <input type="number" id="race_number" name="race_number">
     <button id="start_registration">접수 시작</button>
+    <button id="end_registration" disabled>종료</button>
     <div id="registration_status">
         <!-- 경주 응원 접수 상태가 여기에 표시됩니다 -->
     </div>
@@ -65,6 +66,12 @@
                 }
             });
         }
+        function endRegistration() {
+            $('#start_registration').prop('disabled', false);
+            $('#start_registration').text('접수 시작');
+            $('#end_registration').prop('disabled', true);
+            $('#registration_status').html('');
+        }        
 
         // 페이지 로드 시 테이블 번호를 즉시 새로고침합니다
         refreshTableNumbers();
@@ -73,7 +80,15 @@
         setInterval(refreshTableNumbers, 5000);
 
         // Attach the click event to the "접수 시작" button
-        $('#start_registration').on('click', startRegistration);
+        $('#start_registration').on('click', function() {
+            startRegistration();
+            $('#start_registration').prop('disabled', true);
+            $('#start_registration').text('접수 중');
+            $('#end_registration').prop('disabled', false);
+        });
+
+        // Attach the click event to the "종료" button
+        $('#end_registration').on('click', endRegistration);
     </script>
 </body>
 </html>
