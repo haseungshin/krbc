@@ -15,48 +15,30 @@
         <!-- Success or error message will be displayed here -->
     </div>
     <script>
-        function getRaceNumber() {
-          $.ajax({
-            url: "https://kraserver.pythonanywhere.com/get_race_number",
-            type: "GET",
-            success: function (response) {
-              const raceNumber = response.race_number;
-              // Store the raceNumber in a global variable or a hidden input field
-            },
-            error: function (error) {
-              console.error("Error fetching race_number:", error);
-            },
-          });
-        }
-        function registerTable(tableNumber, raceNumber) {
-          $.ajax({
-            url: "https://kraserver.pythonanywhere.com/register_table",
-            type: "POST",
-            data: {
-              table_number: tableNumber,
-              race_number: raceNumber,
-            },
-            success: function (response) {
-              // Include the raceNumber in the success message
-              $('#message').html(`<p>${raceNumber} 경주 테이블 번호가 정상 등록되었습니다.</p>`);
-            },
-            error: function (error) {
-              console.error("Error registering table:", error);
-              alert("테이블 번호 등록에 실패했습니다.");
-            },
-          });
+        function registerTable(tableNumber) {
+            $.ajax({
+                url: 'https://kraserver.pythonanywhere.com/register_table',
+                type: 'POST',
+                data: {'table_number': tableNumber},
+                success: function(response) {
+                    // Show a success message to the user
+                    $('#message').html(`<p>${response.success}</p>`);
+                },
+                error: function(error) {
+                    // Show an error message to the user
+                    $('#message').html(`<p>${error.responseJSON.error}</p>`);
+                }
+            });
         }
 
         // Get the table number from the URL and register it
         const urlParams = new URLSearchParams(window.location.search);
         const tableNumber = urlParams.get('table');
         if (tableNumber) {
-            getRaceNumber();
+            registerTable(tableNumber);
         } else {
             $('#message').html('<p>테이블 번호가 없습니다.</p>');
         }
-
-
     </script>
 </body>
 </html>
