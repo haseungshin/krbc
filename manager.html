@@ -36,9 +36,10 @@
                     tableNumbersHtml += '</ul>';
                     $('#table_numbers').html(tableNumbersHtml);
                 },
-                error: function(error) {
+                error: function(jqXHR) {
                     // Show an error message to the user
-                    $('#table_numbers').html(`<p>${error.responseJSON.error}</p>`);
+                    const error = jqXHR.responseJSON ? jqXHR.responseJSON.error : 'An error occurred';
+                    $('#table_numbers').html(`<p>${error}</p>`);
                 }
             });
         }
