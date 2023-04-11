@@ -47,16 +47,20 @@
         function startRegistration() {
             const raceNumber = $('#race_number').val();
             if (!raceNumber) {
-                alert('경주 번호를 입력하세요');
+                alert('Enter the race number');
                 return;
             }
 
             $.ajax({
                 url: 'https://kraserver.pythonanywhere.com/open_registration',
                 type: 'POST',
+                data: {'race_number': raceNumber},
                 success: function(response) {
                     // Show a success message to the user
-                    $('#registration_status').html(`<p>${raceNumber} 경주 응원 접수 중</p>`);
+                    $('#registration_status').html(`<p>${raceNumber} race registration ongoing</p>`);
+                    $('#start_registration').prop('disabled', true);
+                    $('#start_registration').text('Registration in progress');
+                    $('#end_registration').prop('disabled', false);
                 },
                 error: function(error) {
                     // Show an error message to the user
@@ -64,6 +68,7 @@
                 }
             });
         }
+        
         function endRegistration() {
             const raceNumber = $('#race_number').val();
             if (!raceNumber) {
