@@ -23,8 +23,13 @@
     </div>
     <script>
         function refreshTableNumbers() {
+            const raceNumber = $('#race_number').val();
+            if (!raceNumber) {
+                return;
+            }
+
             $.ajax({
-                url: 'https://kraserver.pythonanywhere.com/get_table_numbers',
+                url: `https://kraserver.pythonanywhere.com/get_table_numbers?race_number=${raceNumber}`,
                 type: 'GET',
                 success: function(response) {
                     // Display the table numbers
@@ -36,10 +41,9 @@
                     tableNumbersHtml += '</ul>';
                     $('#table_numbers').html(tableNumbersHtml);
                 },
-                error: function(jqXHR) {
+                error: function(error) {
                     // Show an error message to the user
-                    const error = jqXHR.responseJSON ? jqXHR.responseJSON.error : 'An error occurred';
-                    $('#table_numbers').html(`<p>${error}</p>`);
+                    $('#table_numbers').html(`<p>${error.responseJSON.error}</p>`);
                 }
             });
         }
